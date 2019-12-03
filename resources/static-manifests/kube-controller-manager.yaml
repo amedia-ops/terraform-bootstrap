@@ -14,6 +14,8 @@ spec:
     runAsUser: 65534
     seccompProfile:
       type: RuntimeDefault
+    seLinuxOptions:
+      type: spc_t
   containers:
   - name: kube-controller-manager
     image: ${kube_controller_manager_image}
@@ -52,6 +54,9 @@ spec:
     - name: ssl-host
       mountPath: /etc/ssl/certs
       readOnly: true
+    - name: pki-host
+      mountPath: /etc/pki
+      readOnly: true
   volumes:
   - name: secrets
     hostPath:
@@ -59,3 +64,6 @@ spec:
   - name: ssl-host
     hostPath:
       path: ${trusted_certs_dir}
+  - name: pki-host
+    hostPath:
+      path: /etc/pki

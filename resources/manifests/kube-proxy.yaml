@@ -26,6 +26,8 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
+        seLinuxOptions:
+          type: spc_t
       serviceAccountName: kube-proxy
       tolerations:
       - key: node-role.kubernetes.io/controller
@@ -74,6 +76,9 @@ spec:
         - name: ssl-certs-host
           mountPath: /etc/ssl/certs
           readOnly: true
+        - name: pki-host
+          mountPath: /etc/pki
+          readOnly: true
         - name: xtables-lock
           mountPath: /run/xtables.lock
       volumes:
@@ -86,6 +91,9 @@ spec:
       - name: ssl-certs-host
         hostPath:
           path: ${trusted_certs_dir}
+      - name: pki-host
+        hostPath:
+          path: /etc/pki
       # Access iptables concurrently
       - name: xtables-lock
         hostPath:
