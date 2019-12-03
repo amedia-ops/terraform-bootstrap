@@ -35,6 +35,9 @@ spec:
     - --kubelet-client-certificate=/etc/kubernetes/secrets/apiserver.crt
     - --kubelet-client-key=/etc/kubernetes/secrets/apiserver.key
     - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname${aggregation_flags}
+    - --oidc-client-id=${oidc_client_id}
+    - --oidc-issuer-url=https://accounts.google.com
+    - --oidc-username-claim=email
     - --secure-port=6443
     - --service-account-key-file=/etc/kubernetes/secrets/service-account.pub
     - --service-cluster-ip-range=${service_cidr}

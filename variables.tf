@@ -58,6 +58,11 @@ EOD
   default     = "10.3.0.0/24"
 }
 
+variable "oidc_client_id" {
+  type = string
+  description = "The OIDC client ID to use for authorization against Google."
+}
+
 
 variable "container_images" {
   type        = map(string)
