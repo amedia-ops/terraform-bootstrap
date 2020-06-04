@@ -74,9 +74,10 @@ resource "tls_cert_request" "apiserver" {
     "kubernetes.default.svc.${var.cluster_domain_suffix}",
   ])
 
-  ip_addresses = [
+  ip_addresses = flatten([
+    var.api_virtual_ip,
     cidrhost(var.service_cidr, 1),
-  ]
+  ])
 }
 
 resource "tls_locally_signed_cert" "apiserver" {
@@ -225,4 +226,3 @@ resource "local_file" "kubelet-crt" {
   content  = tls_locally_signed_cert.kubelet.cert_pem
   filename = "${var.asset_dir}/tls/kubelet.crt"
 }
-

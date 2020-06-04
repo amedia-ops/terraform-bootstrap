@@ -11,7 +11,7 @@ output "kubeconfig-kubelet" {
 
 // Generated kubeconfig for admins (i.e. human super-user)
 output "kubeconfig-admin" {
-  value     = data.template_file.kubeconfig-admin.rendered
+  value     = data.template_file.kubeconfig-admin-named.rendered
   sensitive = true
 }
 

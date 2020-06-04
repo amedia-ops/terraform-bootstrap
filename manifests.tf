@@ -10,7 +10,7 @@ locals {
         kube_controller_manager_image = var.container_images["kube_controller_manager"]
         kube_scheduler_image          = var.container_images["kube_scheduler"]
 
-        etcd_servers      = join(",", formatlist("https://%s:2379", var.etcd_servers))
+        etcd_servers      = join(",", formatlist("https://%s:2379", var.etcd_ipaddresses))
         cloud_provider    = var.cloud_provider
         pod_cidr          = var.pod_cidr
         service_cidr      = var.service_cidr
@@ -35,7 +35,7 @@ locals {
         cluster_domain_suffix  = var.cluster_domain_suffix
         cluster_dns_service_ip = cidrhost(var.service_cidr, 10)
         trusted_certs_dir      = var.trusted_certs_dir
-        server                 = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
+        server                 = format("https://%s:%s", var.api_virtual_ip, var.external_apiserver_port)
         daemonset_tolerations  = var.daemonset_tolerations
         token_id               = random_string.bootstrap-token-id.result
         token_secret           = random_string.bootstrap-token-secret.result
@@ -71,4 +71,3 @@ locals {
 - --requestheader-username-headers=X-Remote-User
 EOF
 }
-
