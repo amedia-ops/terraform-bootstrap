@@ -3,14 +3,26 @@ variable "cluster_name" {
   description = "Cluster name"
 }
 
+variable "api_virtual_ip" {
+  type        = string
+  description = "The internal virtual IP used to reach kube-apiserver"
+}
+
 variable "api_servers" {
   type        = list(string)
   description = "List of URLs used to reach kube-apiserver"
 }
 
+variable "etcd_ipaddresses" {
+  type        = list(string)
+  description = "List of IPs used to reach etcd servers."
+  default     = []
+}
+
 variable "etcd_servers" {
   type        = list(string)
   description = "List of URLs used to reach etcd servers."
+  default     = []
 }
 
 variable "cloud_provider" {
@@ -120,4 +132,3 @@ variable "daemonset_tolerations" {
   description = "List of additional taint keys kube-system DaemonSets should tolerate (e.g. ['custom-role', 'gpu-role'])"
   default     = []
 }
-

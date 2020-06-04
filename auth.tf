@@ -25,7 +25,7 @@ data "template_file" "kubeconfig-bootstrap" {
 
   vars = {
     ca_cert      = base64encode(tls_self_signed_cert.kube-ca.cert_pem)
-    server       = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
+    server       = format("https://%s:%s", var.api_virtual_ip, var.external_apiserver_port)
     token_id     = random_string.bootstrap-token-id.result
     token_secret = random_string.bootstrap-token-secret.result
   }
@@ -41,7 +41,19 @@ data "template_file" "kubeconfig-admin" {
     ca_cert      = base64encode(tls_self_signed_cert.kube-ca.cert_pem)
     kubelet_cert = base64encode(tls_locally_signed_cert.admin.cert_pem)
     kubelet_key  = base64encode(tls_private_key.admin.private_key_pem)
-    server       = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
+    server       = format("https://%s:%s", var.api_virtual_ip, var.external_apiserver_port)
   }
 }
 
+# Generated admin kubeconfig in a file named after the cluster
+data "template_file" "kubeconfig-admin-named" {
+  template = file("${path.module}/resources/kubeconfig-admin")
+
+  vars = {
+    name         = var.cluster_name
+    ca_cert      = base64encode(tls_self_signed_cert.kube-ca.cert_pem)
+    kubelet_cert = base64encode(tls_locally_signed_cert.admin.cert_pem)
+    kubelet_key  = base64encode(tls_private_key.admin.private_key_pem)
+    server       = format("https://%s:%s", var.api_servers[0], var.external_apiserver_port)
+  }
+}
