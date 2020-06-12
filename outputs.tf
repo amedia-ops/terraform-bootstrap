@@ -33,6 +33,23 @@ output "assets_dist" {
   sensitive = true
 }
 
+# admin TLS assets
+
+output "admin_ca_cert" {
+  value     = tls_self_signed_cert.kube-ca.cert_pem
+  sensitive = true
+}
+
+output "admin_cert" {
+  value     = tls_locally_signed_cert.admin.cert_pem
+  sensitive = true
+}
+
+output "admin_key" {
+  value     = tls_private_key.admin.private_key_pem
+  sensitive = true
+}
+
 # etcd TLS assets
 
 output "etcd_ca_cert" {
