@@ -1,8 +1,8 @@
 locals {
   # Kubernetes TLS assets map
   kubernetes_tls = {
-    "tls/k8s/ca.crt"              = tls_self_signed_cert.kube-ca.cert_pem,
-    "tls/k8s/ca.key"              = tls_private_key.kube-ca.private_key_pem,
+    "tls/k8s/ca.crt"              = var.ca_certificate.cert_pem,
+    "tls/k8s/ca.key"              = var.ca_private_key.private_key_pem,
     "tls/k8s/apiserver.crt"       = tls_locally_signed_cert.apiserver.cert_pem,
     "tls/k8s/apiserver.key"       = tls_private_key.apiserver.private_key_pem,
     "tls/k8s/service-account.pub" = tls_private_key.service-account.public_key_pem
@@ -43,9 +43,9 @@ resource "tls_cert_request" "apiserver" {
 resource "tls_locally_signed_cert" "apiserver" {
   cert_request_pem = tls_cert_request.apiserver.cert_request_pem
 
-  ca_key_algorithm   = tls_self_signed_cert.kube-ca.key_algorithm
-  ca_private_key_pem = tls_private_key.kube-ca.private_key_pem
-  ca_cert_pem        = tls_self_signed_cert.kube-ca.cert_pem
+  ca_key_algorithm   = var.ca_certificate.key_algorithm
+  ca_private_key_pem = var.ca_private_key.private_key_pem
+  ca_cert_pem        = var.ca_certificate.cert_pem
 
   validity_period_hours = 8760
 
@@ -77,9 +77,9 @@ resource "tls_cert_request" "admin" {
 resource "tls_locally_signed_cert" "admin" {
   cert_request_pem = tls_cert_request.admin.cert_request_pem
 
-  ca_key_algorithm   = tls_self_signed_cert.kube-ca.key_algorithm
-  ca_private_key_pem = tls_private_key.kube-ca.private_key_pem
-  ca_cert_pem        = tls_self_signed_cert.kube-ca.cert_pem
+  ca_key_algorithm   = var.ca_certificate.key_algorithm
+  ca_private_key_pem = var.ca_private_key.private_key_pem
+  ca_cert_pem        = var.ca_certificate.cert_pem
 
   validity_period_hours = 8760
 
@@ -117,9 +117,9 @@ resource "tls_cert_request" "kubelet" {
 resource "tls_locally_signed_cert" "kubelet" {
   cert_request_pem = tls_cert_request.kubelet.cert_request_pem
 
-  ca_key_algorithm   = tls_self_signed_cert.kube-ca.key_algorithm
-  ca_private_key_pem = tls_private_key.kube-ca.private_key_pem
-  ca_cert_pem        = tls_self_signed_cert.kube-ca.cert_pem
+  ca_key_algorithm   = var.ca_certificate.key_algorithm
+  ca_private_key_pem = var.ca_private_key.private_key_pem
+  ca_cert_pem        = var.ca_certificate.cert_pem
 
   validity_period_hours = 8760
 
