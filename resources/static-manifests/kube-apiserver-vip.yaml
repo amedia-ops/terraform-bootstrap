@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-apiserver-vip
+  namespace: kube-system
+  labels:
+    k8s-app: kube-apiserver-vip
+    tier: control-plane
+  annotations:
+    seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
+spec:
+  hostNetwork: true
+  priorityClassName: system-cluster-critical
+  containers:
+  - name: kube-apiserver-vip
+    image: eu.gcr.io/amedia-core/tools/alpine-keepalived:v2.0.16
+    env:
+    - name: KEEPALIVED_VIP
+      value: ${api_virtual_ip}
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: kubeconfig
+      mountPath: /etc/kubernetes/kubeconfig
+      readOnly: true
+  volumes:
+  - name: kubeconfig
+    hostPath:
+      path: /etc/kubernetes/bootstrap-secrets/kubeconfig
