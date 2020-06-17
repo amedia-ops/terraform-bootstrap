@@ -17,6 +17,7 @@ locals {
         oidc_client_id    = var.oidc_client_id
         trusted_certs_dir = var.trusted_certs_dir
         aggregation_flags = var.enable_aggregation ? indent(4, local.aggregation_flags) : ""
+        api_virtual_ip    = var.api_virtual_ip
       }
     )
   }
