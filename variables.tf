@@ -13,6 +13,16 @@ variable "api_servers" {
   description = "List of URLs used to reach kube-apiserver"
 }
 
+variable "ca_private_key" {
+  # type        = string
+  description = "The private key to use for the Certificate Authority"
+}
+
+variable "ca_certificate" {
+  # type        = string
+  description = "The self-signed certicate to use for the Certificate Authority"
+}
+
 variable "etcd_ipaddresses" {
   type        = list(string)
   description = "List of IPs used to reach etcd servers."
