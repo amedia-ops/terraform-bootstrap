@@ -36,7 +36,7 @@ output "assets_dist" {
 # admin TLS assets
 
 output "admin_ca_cert" {
-  value     = tls_self_signed_cert.kube-ca.cert_pem
+  value     = var.ca_certificate.cert_pem
   sensitive = true
 }
 
