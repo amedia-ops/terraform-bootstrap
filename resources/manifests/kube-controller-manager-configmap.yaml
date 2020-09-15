@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+data:
+  KUBE_API_BURST: 30
+  KUBE_API_QPS: 20
+kind: ConfigMap
+metadata:
+  labels:
+    k8s-app: kube-controller-manager
+  name: kube-controller-manager
+  namespace: kube-system
