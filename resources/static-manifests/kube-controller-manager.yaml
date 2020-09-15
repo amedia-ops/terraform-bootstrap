@@ -16,6 +16,17 @@ spec:
     runAsUser: 65534
   containers:
   - name: kube-controller-manager
+    env:
+      - name: KUBE_API_BURST
+        valueFrom:
+          configMapKeyRef:
+            key: KUBE_API_BURST
+            name: kube-controller-manager
+      - name: KUBE_API_QPS
+        valueFrom:
+          configMapKeyRef:
+            key: KUBE_API_QPS
+            name: kube-controller-manager
     image: ${kube_controller_manager_image}
     command:
     - kube-controller-manager
@@ -28,6 +39,8 @@ spec:
     - --experimental-cluster-signing-duration=72h
     - --flex-volume-plugin-dir=/var/lib/kubelet/volumeplugins
     - --kubeconfig=/etc/kubernetes/secrets/kubeconfig
+    - --kube-api-burst=${KUBE_API_BURST}
+    - --kube-api-qps=${KUBE_API_QPS}
     - --leader-elect=true
     - --pod-eviction-timeout=1m
     - --root-ca-file=/etc/kubernetes/secrets/ca.crt
